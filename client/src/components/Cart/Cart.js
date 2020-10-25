@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import SubHeader from './Header/SubHeader';
-import ProductItem from './Products/ProductItem';
+import SubHeader from '../Header/SubHeader';
+import ProductItem from '../Products/ProductItem';
 import Totals from './Totals';
 
 const CartWrapper = styled.div`

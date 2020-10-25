@@ -26,16 +26,21 @@ const LoginWrapper = styled.div`
         const [userName, setUserName] = React.useState('');
         const [password, setPassword] = React.useState('');
 
-        return ( 
+        return (
             <LoginWrapper>
                 <TextInput
-                onChange={e > setUserName(e.target.value)}
+                onChange={e => setUserName(e.target.value)}
                 value={userName}
-                placeholder='Your Password'
+                placeholder='Your username'
+                />
+                <TextInput
+                onChange={e => setPassword(e.target.value)}
+                value={password}
+                placeholder='Your password'
                 />
                 <Button color='royalBlue'>Login</Button>
             </LoginWrapper>
         );
     };
 
-    export default Login;
+export default Login;
