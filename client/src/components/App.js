@@ -5,6 +5,16 @@ import Header from './Header/Header';
 import Products from './Products/Products';
 import Cart from './Cart/Cart';
 
+import ApolloClient from 'apollo-client';
+import { HttpLink } from 'apollo-link-http';
+import { ApolloProvider } from 'react-apollo';
+
+const client = () => new ApolloClient({
+  link: new HttpLink({
+    uri: 'http://localhost:6000',
+  }),
+});
+
 const GlobalStyle = createGlobalStyle`
   body { 
     margin: 0;
@@ -22,7 +32,7 @@ const GlobalStyle = createGlobalStyle`
     `;
 
   const App = () => (
-    <>
+  <ApolloProvider client={client}>
       <GlobalStyle />
       <AppWrapper>
         <Header />
@@ -31,7 +41,8 @@ const GlobalStyle = createGlobalStyle`
           <Route path ='/cart' component={Cart} />
         </Switch>
       </AppWrapper>
-      </>
+    </ApolloProvider>
+      
   );
 
   export default App;
