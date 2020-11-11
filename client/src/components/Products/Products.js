@@ -1,9 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
 import SubHeader from '../Header/SubHeader';
 import ProductItem from './ProductItem';
 
-const ProductItemsWrapper = styled.div`
+const GET_PRODUCTS = gql`
+    query getProducts {
+        products {
+            id
+            title
+            thumbnail
+        }
+    }
+    `;
+
+export const ProductItemsWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -17,7 +29,6 @@ const Alert = styled.span`
     `;
 
 const Products = ({ history, loading, error, products }) => {
-    const isEmpty = products.length === 0 ? 'No products available' : false;
 
     return (
         <>
@@ -27,16 +38,20 @@ const Products = ({ history, loading, error, products }) => {
             goToCart={() => history.push('/cart')}
             />
         )}
-        {!loading && !error && !isEmpty ? (
+
+       <Query query={GET_PRODUCTS}>
+           {({ data }) => {
+               return (
+            
             <ProductItemsWrapper>
                 {products &&
                 products.map(product => (
                     <ProductItem key={product.id} data={product} />
                 ))}
             </ProductItemsWrapper>
-        ) : (
-            <Alert>{loading ? 'Loading' : error || isEmpty}</Alert>
-        )}
+               );
+                }}
+                </Query>
         </>
     );
 };
