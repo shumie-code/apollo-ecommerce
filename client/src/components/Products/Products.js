@@ -28,38 +28,27 @@ const Alert = styled.span`
     text-align: center;
     `;
 
-const Products = ({ history, loading, error, products }) => {
-
-    return (
-        <>
-        {history && (
-            <SubHeader
-            title='Available products'
-            goToCart={() => history.push('/cart')}
-            />
-        )}
-
-       <Query query={GET_PRODUCTS}>
-           {({ data }) => {
-               return (
-            
-            <ProductItemsWrapper>
-                {products &&
-                products.map(product => (
-                    <ProductItem key={product.id} data={product} />
-                ))}
-            </ProductItemsWrapper>
-               );
-                }}
-                </Query>
-        </>
-    );
-};
-
-Products.defaultProps = {
-    loading: false,
-    error: '',
-    products: [],
-};
+const Products = ({ match, history }) => (
+    <>
+      {
+          history && (
+              <SubHeader title='Available products' goToCart={() => history.push('/cart')} /> 
+          )}
+          <Query query={GET_PRODUCTS}>
+              {({ loading, error, data }) => {
+                  if (loading || error) {
+                      return <Alert>{loading ? 'Loading...' : error}</Alert>;
+                  }
+                  return (
+                      <ProductItemsWrapper>
+                          {data.products && data.products.map(product => (
+                              <ProductItem key={product.id} data={product} />
+                          ))}
+                      </ProductItemsWrapper>
+                  );
+              }}
+          </Query>
+          </>
+);
 
 export default Products;
