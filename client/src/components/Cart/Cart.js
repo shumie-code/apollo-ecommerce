@@ -1,24 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Query } from 'react-apollo';
-import gql from 'graphql-tag'; 
 import SubHeader from '../Header/SubHeader';
 import ProductItem from '../Products/ProductItem';
 import Totals from './Totals';
-
-const GET_CART = gql`
-    query getCart {
-        cart {
-            total
-            products {
-                id
-                title
-                thumbnail
-            }
-        }
-    }
-    `;
-
+import { GET_CART } from '../../constants';
 
 const CartWrapper = styled.div`
     display: flex;
@@ -38,33 +24,29 @@ const CartWrapper = styled.div`
         text-align: center;
         `;
 
-    const Cart = ({ history, loading, error, cart }) => (
-        <>
-        {history && (
-            <SubHeader title='Cart' goToCart={() => history.push('/cart')} />
-        )}
-        {!loading && !error ? (
-            <CartWrapper>
-                <CartItemsWrapper>
-                    {cart.products.map(product => (
-                        <ProductItem key={product.id} data={product} />
-                    ))}
-                </CartItemsWrapper>
-                <Totals count={cart.total} />
-            </CartWrapper>
-        ) : (
-            <Alert>{loading ? 'Loading...' : error}</Alert>
-        )}
-        </>
-    );
+   const Cart = ({ match, history }) => (
+       <>
+       {history && (
+           <SubHeader goBack={ () => history.goBack()} title='Cart' />
+       )}
+       <Query query={GET_CART}>
+           {({ loading, error, data }) => {
+               if (loading || error) {
+                   return <Alert>{loading ? 'Loading...' : error}</Alert>;
+               }
+               return (
+                   <CartWrapper>
+                       <CartItemsWrapper>
+                           {data.cart && data.cart.products.map(product => (
+                               <ProductItem key={product.id} data={product} />
+                           ))}
+                       </CartItemsWrapper>
+                       <Totals count={data.cart.total} />
+                   </CartWrapper>
+               );
+           }}
+       </Query>
+       </>
+   );
 
-    Cart.defaultProps = {
-        loading: false,
-        error: '',
-        cart: {
-            products: [],
-            total: 0,
-        },
-    };
-
-    export default Cart;
+   export default Cart;
