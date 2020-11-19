@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import AddToCartButton from '../Cart/AddToCartButton';
 
 const ProductItemWrapper = styled.div`
     display: flex;
@@ -23,10 +24,10 @@ border-radius: 5px;
 `;
 
 const ProductItem = ({ data }) => (
-    <ProductItemWrapper>
+    <ProductItemWrapper> 
         <Thumbnail src={data.thumbnail} width={200} />
         <Title>{data.title}</Title>
-    </ProductItemWrapper>
+        <AddToCartButton productId={data.id} />
+        </ProductItemWrapper>
 );
-
 export default ProductItem;

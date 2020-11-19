@@ -7,7 +7,8 @@ const SubHeaderWrapper = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
-    background: cornFlowerBlue;
+    background: cornflowerBlue;
+    padding: 1% 0;
     `;
 
 const Title = styled.h2`
@@ -24,8 +25,8 @@ const Title = styled.h2`
     `;
 
 const SubHeaderButton = styled(Button)`
-        margin: 10px 5%;
-        `;
+    margin: 10px 5%;
+    `;
 
 const SubHeader = ({ goBack, title, goToCart = false }) => (
     <SubHeaderWrapper>
@@ -34,7 +35,7 @@ const SubHeader = ({ goBack, title, goToCart = false }) => (
         )}
         <Title>{title}</Title>
         {goToCart && <CartButton onClick={goToCart} />}
-    </SubHeaderWrapper>
+        </SubHeaderWrapper>
 );
 
-export default SubHeader;
+export default SubHeader; 
